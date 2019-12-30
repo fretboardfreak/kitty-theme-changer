@@ -1,0 +1,3 @@
+pep257==0.7.0
+pycodestyle==2.5.0
+pylint==2.3.1
