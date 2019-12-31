@@ -82,7 +82,10 @@ def parse_cmd_line():
     DebugAction.add_parser_argument(parser)
     VerboseAction.add_parser_argument(parser)
     parser.add_argument(
-        '-c', '--config', type=existing_file, default=DEFAULT_CONFIG)
+        '-c', '--config', type=existing_file, default=DEFAULT_CONFIG,
+        help=('The configuration for the Kitty Theme Changer. See '
+              '"--help-config" for more info. Default: {}'.format(
+                DEFAULT_CONFIG)))
     parser.add_argument(
         '-l', '--list', action="store_const", const='list', dest='action',
         default='', help="List available themes.")
