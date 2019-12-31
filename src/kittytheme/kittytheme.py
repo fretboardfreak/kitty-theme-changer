@@ -34,14 +34,25 @@ DEFAULT_CONFIG = '~/.kittythemechanger.py'
 
 def main():
     """Main script logic."""
-    args = parse_cmd_line()
+    # parse the command line arguments
+    parser = build_argument_parser()
+    args = parser.parse_args()
 
-    # Load Config Module
+    # if --help-config is used, print config help then exit
+    if args.config_help:
+        print_config_help()
+        sys.exit(0)
+
+    # check that theme was provided if the chosen action needs one
+    check_theme_provided(args)
+
+    # load config module
     spec = spec_from_file_location(args.config.stem, args.config.as_posix())
     config = module_from_spec(spec)
     spec.loader.exec_module(config)
     check_config(config)
 
+    # perform selected action
     if args.action:
         dprint('calling action: {}'.format(args.action))
         getattr(Actions, args.action)(args, config)
@@ -52,28 +63,7 @@ def main():
     return 0
 
 
-def existing_file(input_text):
-    """Ensure the input text is an existing file path."""
-    dprint('input config file: {}'.format(input_text))
-    filepath = Path(input_text).expanduser()
-    if not filepath.exists():
-        raise argparse.ArgumentTypeError(
-            'The configuration file must exist. Use --help-config to see '
-            'how to configure the Kitty Theme Changer.')
-    return filepath
-
-
-def check_theme_provided(args):
-    """Ensure actions that need a theme input receive one."""
-    action_needs_theme = ['test', 'set_dark', 'set_light']
-    if args.action and args.action in action_needs_theme:
-        dprint('action {} requires a theme from the user.'.format(args.action))
-        if not args.theme:
-            msg = 'The "{}" action requires a theme name.'.format(args.action)
-            raise argparse.ArgumentError(msg)
-
-
-def parse_cmd_line():
+def build_argument_parser():
     """Parse the command line arguments."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -116,12 +106,28 @@ def parse_cmd_line():
         default=False,
         help="Print info on how to configure Kitty Theme Changer.")
 
-    args = parser.parse_args()
-    if args.config_help:
-        print_config_help()
-        sys.exit(0)
-    check_theme_provided(args)
-    return args
+    return parser
+
+
+def existing_file(input_text):
+    """Ensure the input text is an existing file path."""
+    dprint('input config file: {}'.format(input_text))
+    filepath = Path(input_text).expanduser()
+    if not filepath.exists():
+        raise argparse.ArgumentTypeError(
+            'The configuration file must exist. Use --help-config to see '
+            'how to configure the Kitty Theme Changer.')
+    return filepath
+
+
+def check_theme_provided(args):
+    """Ensure actions that need a theme input receive one."""
+    action_needs_theme = ['test', 'set_dark', 'set_light']
+    if args.action and args.action in action_needs_theme:
+        dprint('action {} requires a theme from the user.'.format(args.action))
+        if not args.theme:
+            msg = 'The "{}" action requires a theme name.'.format(args.action)
+            raise argparse.ArgumentError(msg)
 
 
 def check_config(config):
