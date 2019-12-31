@@ -237,7 +237,7 @@ setup(
     package_dir={'': 'src'},
     packages=find_packages('src'),
     entry_points={
-        'console_scripts': ['kitty-theme=kittytheme.kittytheme.main']
+        'console_scripts': ['kitty-theme=kittytheme.kittytheme:main']
     },
     use_2to3=False,
     install_requires=install_requires(),
