@@ -54,7 +54,7 @@ def main():
 
 def existing_file(input_text):
     """Ensure the input text is an existing file path."""
-    print('input config file: {}'.format(input_text))
+    dprint('input config file: {}'.format(input_text))
     filepath = Path(input_text).expanduser()
     if not filepath.exists():
         raise argparse.ArgumentTypeError(
