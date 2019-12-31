@@ -202,8 +202,8 @@ def toggle_themes(args, config):
     else:
         print('Configured theme.conf does not match configured '
               'light-theme.conf or dark-theme.conf. Setting theme to dark.')
-        args.theme = config.dark_theme_link.resolve().stem
-        set_dark_theme(args, config)
+        config.theme_link.unlink()
+        config.theme_link.symlink_to(config.dark_theme_link)
 
 
 def set_dark_theme(args, config):
