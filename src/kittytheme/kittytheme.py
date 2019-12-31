@@ -170,7 +170,7 @@ def show_config(args, config):
     print('current configured theme is: {}'.format(theme))
 
 
-def get_theme_file(theme_name):
+def get_theme_file(theme_name, config):
     """From a theme name, get the filename of an existing file.
 
     Return None if the file does not exist.
@@ -186,7 +186,7 @@ def get_theme_file(theme_name):
 
 def test_theme(args, config):
     """Test the given theme in the current kitty session."""
-    theme_file = get_theme_file(args.theme)
+    theme_file = get_theme_file(args.theme, config)
     vprint('Changing theme of current kitty window to: {}'.format(
         theme_file.name))
     cmd = ['kitty', '@', '--to={}'.format(config.socket), 'set-colors',
@@ -217,7 +217,7 @@ def toggle_themes(args, config):
 
 def set_dark_theme(args, config):
     """Set the default theme to the configured dark theme."""
-    theme_file = get_theme_file(args.theme)
+    theme_file = get_theme_file(args.theme, config)
     dprint('existing dark theme is: {}'.format(
         config.dark_theme_link.resolve()))
     vprint('Changing configured dark theme to {}'.format(theme_file.name))
@@ -227,7 +227,7 @@ def set_dark_theme(args, config):
 
 def set_light_theme(args, config):
     """Set the default theme to the configured light theme."""
-    theme_file = get_theme_file(args.theme)
+    theme_file = get_theme_file(args.theme, config)
     dprint('existing light theme is: {}'.format(
         config.light_theme_link.resolve()))
     vprint('Changing configured light theme to {}'.format(theme_file.name))
