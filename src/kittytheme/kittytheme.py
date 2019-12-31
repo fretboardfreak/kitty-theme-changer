@@ -190,7 +190,7 @@ def test_theme(args, config):
     vprint('Changing theme of current kitty window to: {}'.format(
         theme_file.name))
     cmd = ['kitty', '@', '--to={}'.format(config.socket), 'set-colors',
-           theme_file]
+           theme_file.as_posix()]
     dprint('executing: {}'.format(' '.join(cmd)))
     call(cmd)
 
@@ -240,7 +240,7 @@ def make_theme_live(args, config):
     vprint('Changing theme of all running kitty windows to: {}'.format(
         config.theme_link.resolve().name))
     cmd = ['kitty', '@', '--to={}'.format(config.socket), 'set-colors',
-           '--all', config.theme_link]
+           '--all', config.theme_link.as_posix()]
     dprint('executing: {}'.format(' '.join(cmd)))
     call(cmd)
 
