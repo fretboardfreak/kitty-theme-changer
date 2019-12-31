@@ -225,8 +225,8 @@ def set_light_theme(args, config):
     dprint('existing light theme is: {}'.format(
         config.light_theme_link.resolve()))
     vprint('Changing configured light theme to {}'.format(theme_file.name))
-    config.dark_theme_link.unlink()
-    config.dark_theme_link.symlink_to(theme_file)
+    config.light_theme_link.unlink()
+    config.light_theme_link.symlink_to(theme_file)
 
 
 def make_theme_live(args, config):
