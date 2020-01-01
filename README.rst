@@ -99,7 +99,7 @@ Configuration
 
        ln -s /path/to/kitty/themes/sometheme.conf light-theme.conf
        ln -s /path/to/kitty/themes/othertheme.conf dark-theme.conf
-       ln -s theme.conf dark-theme.conf
+       ln -s dark-theme.conf theme.conf
 
 4. Fourth and final step is to create the Kitty Theme Changer
    config file which will point to the correct paths for the

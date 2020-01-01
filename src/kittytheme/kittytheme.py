@@ -259,7 +259,7 @@ def print_config_help():
     msg += "   Create these inside '~/.config/kitty/' with:\n"
     msg += "       ln -s /path/to/kitty/themes/sometheme.conf light-theme.conf\n"
     msg += "       ln -s /path/to/kitty/themes/othertheme.conf dark-theme.conf\n"
-    msg += "       ln -s theme.conf dark-theme.conf\n"
+    msg += "       ln -s dark-theme.conf theme.conf\n"
     msg += "4. Fourth and final step is to create the Kitty Theme Changer \n"
     msg += "   config file which will point to the correct paths for the \n"
     msg += "   themes you've collected.\n"
