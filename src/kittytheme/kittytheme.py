@@ -191,7 +191,14 @@ def show_config(args, config):
     """Show the current theme configuration."""
     dprint('looking at symlink target of {}'.format(config.theme_link))
     theme = config.theme_link.resolve().stem
-    print('current configured theme is: {}'.format(theme))
+    light_theme = config.light_theme_link.resolve().stem
+    dark_theme = config.dark_theme_link.resolve().stem
+    dark_active = '***' if dark_theme == theme else ''
+    light_active = '***' if light_theme == theme else ''
+    print('{}dark theme: {}{}'.format(
+        dark_active, dark_theme, dark_active))
+    print('{}light theme: {}{}'.format(
+        light_active, light_theme, light_active))
 
 
 def get_theme_file(theme_name, config):
