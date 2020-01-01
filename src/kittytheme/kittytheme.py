@@ -17,6 +17,7 @@
 
 import argparse
 import sys
+import random
 
 from importlib.util import spec_from_file_location
 from importlib.util import module_from_spec
@@ -51,6 +52,8 @@ def main():
     config = module_from_spec(spec)
     spec.loader.exec_module(config)
     check_config(config)
+
+    check_symlinks(config)
 
     # perform selected action
     if args.action:
@@ -152,6 +155,27 @@ def check_config(config):
             raise Exception(
                 'The config module is missing a variable named '
                 '{} of type {}'.format(attribute, type))
+
+
+def get_random_theme_config(theme_dir):
+    """Randomly choose a theme file from the theme dir."""
+    return random.choice([i for i in theme_dir.glob('*conf')])
+
+
+def check_symlinks(config):
+    """Check that the three theme symlinks exist or create them."""
+    dprint('Checking that the theme symlinks exist.')
+    if not config.dark_theme_link.exists():
+        dprint('dark theme link does not exist, creating it.')
+        config.dark_theme_link.symlink_to(
+            get_random_theme_config(config.theme_dir))
+    if not config.light_theme_link.exists():
+        dprint('light theme link does not exist, creating it.')
+        config.light_theme_link.symlink_to(
+            get_random_theme_config(config.theme_dir))
+    if not config.theme_link.exists():
+        dprint('main theme link does not exist, creating it.')
+        config.theme_link.symlink_to(config.dark_theme_link)
 
 
 def list_themes(args, config):
