@@ -19,6 +19,19 @@ found in the kitty-themes repository: https://github.com/dexpota/kitty-themes
 Tips and Tricks
 ===============
 
+First Run
+---------
+
+On the first run the Kitty Theme Changer script will randomly choose a theme to
+set as both the light and dark theme. It does this to create the 3 symlinks in
+the kitty configuration directory pointed to by the config file. One pointing
+to a light theme, one pointing to a dark theme and a third that ties the kitty
+configuration with one of the light or dark links. (kitty.conf -> theme.conf ->
+light-theme.conf -> actual theme file). You can prevent a random theme from
+being chosen by creating the light and dark symlink files manually (the file
+names are set in your Kitty Theme Changer configuration file.) or you can
+simply set your themes to your preference after the first run.
+
 Kitty Configuration Tips
 ------------------------
 
