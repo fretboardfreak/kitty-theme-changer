@@ -89,23 +89,14 @@ Configuration
 =============
 
 
-1. First step in configuring the Kitty Theme Changer is to
-   download a set of themes for kitty
-   (recommendation: https://github.com/dexpota/kitty-themes).
+1. First step in configuring the Kitty Theme Changer is to download a set of
+   themes for kitty (recommendation: https://github.com/dexpota/kitty-themes).
 
 2. Second step is to configure kitty to include a theme config
-   file. To do this add the line 'include ./theme.conf' in your
+   file. To do this add the line ``include ./theme.conf`` in your
    kitty.conf file.
 
-3. Third step is to add the symlinks that the Kitty Theme
-   Changer uses to toggle between a light and a dark theme.
-   Create these inside '~/.config/kitty/' with::
-
-       ln -s /path/to/kitty/themes/sometheme.conf light-theme.conf
-       ln -s /path/to/kitty/themes/othertheme.conf dark-theme.conf
-       ln -s dark-theme.conf theme.conf
-
-4. Fourth and final step is to create the Kitty Theme Changer
+3. Third and final step is to create the Kitty Theme Changer
    config file which will point to the correct paths for the
    themes you've collected.
 
@@ -125,16 +116,16 @@ Configuration
 
    - socket (str): a Kitty compatible socket string for the '--listen-on' flag. See 'man kitty'.
 
-An example .kittythemechanger.py file is shown below::
+   An example .kittythemechanger.py file is shown below::
 
-    """A container object to hold the Config that this script works with."""
-    from pathlib import Path
-    theme_dir = Path('~/kitty-themes/themes').expanduser()
-    conf_dir = Path('~/.config/kitty').expanduser()
-    theme_link = conf_dir.joinpath('theme.conf')
-    light_theme_link = conf_dir.joinpath('light-theme.conf')
-    dark_theme_link = conf_dir.joinpath('dark-theme.conf')
-    socket = 'unix:/tmp/kittysocket'
+       '''A config module for the Kitty Theme Changer Tool.'''
+       from pathlib import Path
+       theme_dir = Path('~/kitty-themes/themes').expanduser()
+       conf_dir = Path('~/.config/kitty').expanduser()
+       theme_link = conf_dir.joinpath('theme.conf')
+       light_theme_link = conf_dir.joinpath('light-theme.conf')
+       dark_theme_link = conf_dir.joinpath('dark-theme.conf')
+       socket = 'unix:/tmp/kittysocket'
 
 
 .. EOF README
