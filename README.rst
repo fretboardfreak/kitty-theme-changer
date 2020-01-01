@@ -58,12 +58,16 @@ Installation
 
 The recommended method for installing the Kitty Theme Changer is to use ``pip``
 to install the package into your python environment. This can be done safely
-inside a python virtual environment or using the ``--user`` flag on the system
-wide ``pip`` install.
+inside a python virtual environment or using the ``--user`` flag on ``pip``
+install to install the script in your home directory.
 
-System Wide::
+Home directory install::
 
     pip install --user git+git://github.com/fretboardfreak/kitty-theme-changer.git@master
+
+Note that you *can* install the Kitty Theme Changer into the system's core
+python installation but I feel that python package management is a bit cleaner
+if user installed packages are kept out of the system directories.
 
 Inside a Python Virtual Environment::
 
