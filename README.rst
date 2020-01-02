@@ -16,56 +16,6 @@ For more information on the terminal visit: https://github.com/kovidgoyal/kitty
 The Kitty Theme Changer script has been tested with the collection of themes
 found in the kitty-themes repository: https://github.com/dexpota/kitty-themes
 
-Tips and Tricks
-===============
-
-First Run
----------
-
-On the first run the Kitty Theme Changer script will randomly choose a theme to
-set as both the light and dark theme. It does this to create the 3 symlinks in
-the kitty configuration directory pointed to by the config file. One pointing
-to a light theme, one pointing to a dark theme and a third that ties the kitty
-configuration with one of the light or dark links. (kitty.conf -> theme.conf ->
-light-theme.conf -> actual theme file). You can prevent a random theme from
-being chosen by creating the light and dark symlink files manually (the file
-names are set in your Kitty Theme Changer configuration file.) or you can
-simply set your themes to your preference after the first run.
-
-Kitty Configuration Tips
-------------------------
-
-- Kitty Terminal Emulator Site: https://sw.kovidgoyal.net/kitty/index.html
-- Kitty Terminal Configuration Docs: https://sw.kovidgoyal.net/kitty/conf.html
-
-The main features of the Kitty Theme Changer tool - listing themes, setting a
-dark or light theme, toggling between configured themes - can be used without
-any additional tweaks to the Kitty Terminal config.
-
-However, the "--test" and "--live" features require some settings in order to
-work correctly.
-
-- Kitty Remote Control: The remote control feature must be turned on. Either
-  with a value of "yes" or a value of "socket-only" to limit remote control
-  commands to only use the socket specified in the "--listen-on" flag when
-  running kitty. ::
-
-      allow_remote_control yes
-
-- Kitty Socket: Any launchers or aliases that you use to start kitty should
-  include a "--listen-on" option. The socket string that you choose for the
-  "--listen-on" flag should match the socket string in your Kitty Theme Changer
-  configuration file.
-
-- Single Instance/Instance Groups: For the "--live" feature to change the color
-  theme for all running windows it is useful to run kitty with the
-  ``--single-instance`` option turned on.
-
-  If you want the Kitty Theme Changer to modify only a set of kitty windows
-  then you can make all those windows part of the same Kitty instance using the
-  ``--instance-group GROUPNAME`` flag.
-
-
 Installation
 ============
 
@@ -139,6 +89,55 @@ Configuration
        light_theme_link = conf_dir.joinpath('light-theme.conf')
        dark_theme_link = conf_dir.joinpath('dark-theme.conf')
        socket = 'unix:/tmp/kittysocket'
+
+Tips and Tricks
+===============
+
+First Run
+---------
+
+On the first run the Kitty Theme Changer script will randomly choose a theme to
+set as both the light and dark theme. It does this to create the 3 symlinks in
+the kitty configuration directory pointed to by the config file. One pointing
+to a light theme, one pointing to a dark theme and a third that ties the kitty
+configuration with one of the light or dark links. (kitty.conf -> theme.conf ->
+light-theme.conf -> actual theme file). You can prevent a random theme from
+being chosen by creating the light and dark symlink files manually (the file
+names are set in your Kitty Theme Changer configuration file.) or you can
+simply set your themes to your preference after the first run.
+
+Kitty Configuration Tips
+------------------------
+
+- Kitty Terminal Emulator Site: https://sw.kovidgoyal.net/kitty/index.html
+- Kitty Terminal Configuration Docs: https://sw.kovidgoyal.net/kitty/conf.html
+
+The main features of the Kitty Theme Changer tool - listing themes, setting a
+dark or light theme, toggling between configured themes - can be used without
+any additional tweaks to the Kitty Terminal config.
+
+However, the "--test" and "--live" features require some settings in order to
+work correctly.
+
+- Kitty Remote Control: The remote control feature must be turned on. Either
+  with a value of "yes" or a value of "socket-only" to limit remote control
+  commands to only use the socket specified in the "--listen-on" flag when
+  running kitty. ::
+
+      allow_remote_control yes
+
+- Kitty Socket: Any launchers or aliases that you use to start kitty should
+  include a "--listen-on" option. The socket string that you choose for the
+  "--listen-on" flag should match the socket string in your Kitty Theme Changer
+  configuration file.
+
+- Single Instance/Instance Groups: For the "--live" feature to change the color
+  theme for all running windows it is useful to run kitty with the
+  ``--single-instance`` option turned on.
+
+  If you want the Kitty Theme Changer to modify only a set of kitty windows
+  then you can make all those windows part of the same Kitty instance using the
+  ``--instance-group GROUPNAME`` flag.
 
 
 .. EOF README
