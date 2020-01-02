@@ -11,6 +11,22 @@ Change Kitty Terminal Themes Easily!
 Kitty Theme Changer provides simple CLI script that will help you test out and
 change theme configuration files for the Kitty Terminal Emulator.
 
+----
+
+Table of Contents:
+
+#. `Installation`_
+
+#. `Configuration`_
+
+#. `Tips and Tricks`_
+
+   #. `First Run`_
+
+   #. `Kitty Configuration Tips`_
+
+----
+
 For more information on the terminal visit: https://github.com/kovidgoyal/kitty
 
 The Kitty Theme Changer script has been tested with the collection of themes
@@ -50,7 +66,6 @@ yourself.
 
 Configuration
 =============
-
 
 1. First step in configuring the Kitty Theme Changer is to download a set of
    themes for kitty (recommendation: https://github.com/dexpota/kitty-themes).
