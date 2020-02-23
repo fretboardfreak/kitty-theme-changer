@@ -227,7 +227,7 @@ class Test(test):
 
 setup(
     name='kitty-theme-changer',
-    version='0.4',
+    version='0.5',
     description='A CLI tool changing the Kitty Terminal Theme configuration.',
     long_description=readme(),
     url='https://github.com/fretboardfreak/kitty-theme-changer.git',
