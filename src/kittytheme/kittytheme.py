@@ -214,12 +214,17 @@ def get_theme_file(theme_name, config):
 
     Return None if the file does not exist.
     """
-    theme_file = config.theme_dir.joinpath('{}.conf'.format(theme_name))
-    dprint('theme_file: {}'.format(theme_file))
-    if not theme_file.exists():
-        print('Provided theme does not exist. Use the '
+    theme_file = None
+    for fname in config.theme_dir.glob('*.conf'):
+        # Allow case insensitive theme name inputs
+        if fname.stem.lower() == theme_name.lower():
+            theme_file = fname
+
+    if not theme_file or not theme_file.exists():
+        print(f'Provided theme, "{theme_name}" does not exist. Use the '
               '--list option to see available themes.')
         sys.exit(1)
+    dprint('theme_file: {}'.format(theme_file))
     return theme_file
 
 
