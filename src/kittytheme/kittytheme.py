@@ -159,7 +159,15 @@ def check_config(config):
 
 def get_random_theme_config(theme_dir):
     """Randomly choose a theme file from the theme dir."""
-    return random.choice([i for i in theme_dir.glob('*conf')])
+    try:
+        ret_val = random.choice([i for i in theme_dir.glob('*conf')])
+    except IndexError:
+        print('Error: cannot find any theme files ending in "conf" in the '
+              f'directory "{theme_dir}". Please follow the instructions '
+              'given with "--help-config" to ensure the theme changer is '
+              'configured correctly.')
+        sys.exit(1)
+    return ret_val
 
 
 def check_symlinks(config):
