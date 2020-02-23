@@ -38,14 +38,16 @@ def main():
     # parse the command line arguments
     parser = build_argument_parser()
     args = parser.parse_args()
+    dprint(f'parsed args: {args}')
+
+    if args.test and args.live:
+        parser.error('The options "--live" and "--test" cannot be '
+                     'used together.')
 
     # if --help-config is used, print config help then exit
     if args.config_help:
         print_config_help()
         sys.exit(0)
-
-    # check that theme was provided if the chosen action needs one
-    check_theme_provided(args)
 
     # load config module
     spec = spec_from_file_location(args.config.stem, args.config.as_posix())
@@ -55,11 +57,38 @@ def main():
 
     check_symlinks(config)
 
-    # perform selected action
-    if args.action:
-        dprint('calling action: {}'.format(args.action))
-        getattr(Actions, args.action)(args, config)
-    else:  # take default action
+    # dispatch selected actions
+    do_default = True
+    if args.list:
+        do_default = False
+        dprint('calling action: list')
+        Actions.list(args, config)
+
+    if args.set_dark:
+        do_default = False
+        dprint('calling action: set_dark')
+        Actions.set_dark(args, config)
+    if args.set_light:
+        do_default = False
+        dprint('calling action: set_light')
+        Actions.set_light(args, config)
+
+    if args.show:
+        do_default = False
+        dprint('calling action: show')
+        Actions.show(args, config)
+
+    if args.test:
+        do_default = False
+        dprint('calling action: test')
+        Actions.test(args, config)
+
+    if args.live:
+        do_default = False
+        dprint('calling action: live')
+        Actions.live(args, config)
+
+    if do_default:  # take default action
         dprint('no action provided: calling default action')
         Actions.show(args, config)
 
@@ -80,30 +109,26 @@ def build_argument_parser():
               '"--help-config" for more info. Default: {}'.format(
                 DEFAULT_CONFIG)))
     parser.add_argument(
-        '-l', '--list', action="store_const", const='list', dest='action',
-        default='', help="List available themes.")
+        '-l', '--list', dest='list', action="store_true",
+        default=False, help="List available themes.")
     parser.add_argument(
-        '-s', '--show', action='store_const', const='show', dest='action',
-        default='', help="Show the current configuration.")
+        '-s', '--show', dest='show', action="store_true",
+        default=False, help="Show the current configuration.")
     parser.add_argument(
-        '--test', action='store_const', const='test', dest='action',
+        '-T', '--test', dest='test', metavar="TEST_THEME",
         default='', help="Test a new theme in the current kitty session.")
     parser.add_argument(
-        '-t', '--toggle', action='store_const', const='toggle', dest='action',
-        default='', help="Toggle between the dark and light themes.")
+        '-t', '--toggle', dest='toggle', action="store_true",
+        default=False, help="Toggle between the dark and light themes.")
     parser.add_argument(
-        '--setd', action='store_const', const='set_dark', dest='action',
-        default='', help='Set the dark-theme.conf as the default.')
+        '--setd', dest='set_dark', metavar='DARK_THEME',
+        default='', help='Set the dark theme.')
     parser.add_argument(
-        '--setl', action='store_const', const='set_light', dest='action',
-        default='', help='Set the light-theme.conf as the default.')
+        '--setl', dest='set_light', metavar='LIGHT_THEME',
+        default='', help='Set the light theme.')
     parser.add_argument(
-        '-L', '--live', action='store_const', const='live', dest='action',
-        default='', help='Update existing kitty sessions to use the config.')
-    parser.add_argument(
-        action='store', dest='theme', metavar='THEME', nargs='?', default='',
-        help=("The theme name to use. Use --list to get a list "
-              "of available themes."))
+        '-L', '--live', dest='live', action='store_true', default=False,
+        help='Update existing kitty sessions to use the config.')
     parser.add_argument(
         '--help-config', action='store_true', dest='config_help',
         default=False,
@@ -121,16 +146,6 @@ def existing_file(input_text):
             'The configuration file must exist. Use --help-config to see '
             'how to configure the Kitty Theme Changer.')
     return filepath
-
-
-def check_theme_provided(args):
-    """Ensure actions that need a theme input receive one."""
-    action_needs_theme = ['test', 'set_dark', 'set_light']
-    if args.action and args.action in action_needs_theme:
-        dprint('action {} requires a theme from the user.'.format(args.action))
-        if not args.theme:
-            msg = 'The "{}" action requires a theme name.'.format(args.action)
-            raise argparse.ArgumentError(msg)
 
 
 def check_config(config):
@@ -230,7 +245,7 @@ def get_theme_file(theme_name, config):
 
 def test_theme(args, config):
     """Test the given theme in the current kitty session."""
-    theme_file = get_theme_file(args.theme, config)
+    theme_file = get_theme_file(args.test, config)
     vprint('Changing theme of current kitty window to: {}'.format(
         theme_file.name))
     cmd = ['kitty', '@', '--to={}'.format(config.socket), 'set-colors',
@@ -261,7 +276,7 @@ def toggle_themes(args, config):
 
 def set_dark_theme(args, config):
     """Set the default theme to the configured dark theme."""
-    theme_file = get_theme_file(args.theme, config)
+    theme_file = get_theme_file(args.set_dark, config)
     dprint('existing dark theme is: {}'.format(
         config.dark_theme_link.resolve()))
     vprint('Changing configured dark theme to {}'.format(theme_file.name))
@@ -271,7 +286,7 @@ def set_dark_theme(args, config):
 
 def set_light_theme(args, config):
     """Set the default theme to the configured light theme."""
-    theme_file = get_theme_file(args.theme, config)
+    theme_file = get_theme_file(args.set_light, config)
     dprint('existing light theme is: {}'.format(
         config.light_theme_link.resolve()))
     vprint('Changing configured light theme to {}'.format(theme_file.name))
