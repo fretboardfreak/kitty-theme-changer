@@ -83,6 +83,11 @@ def main():
         dprint('calling action: test')
         Actions.test(args, config)
 
+    if args.toggle:
+        do_default = False
+        dprint('calling action: toggle')
+        Actions.toggle(args, config)
+
     if args.live:
         do_default = False
         dprint('calling action: live')
