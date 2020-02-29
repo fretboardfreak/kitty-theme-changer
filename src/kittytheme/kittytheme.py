@@ -25,7 +25,7 @@ from pathlib import Path
 from subprocess import call
 
 
-VERSION = "0.5"
+VERSION = "0.6"
 VERBOSE = False
 DEBUG = False
 DEBUG_OUTPUT_PREFIX = 'debug: '
