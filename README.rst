@@ -108,7 +108,7 @@ Configuration
        dark_theme_link = conf_dir.joinpath('dark-theme.conf')
 
        def kitty_pid():
-         ps = {x.pid: x for x in psutil.process_iter(['name', 'pid', 'ppid'])}
+         ps = {x.pid: x for x in process_iter(['name', 'pid', 'ppid'])}
          cp = ps[getpid()]
          while cp.name() != 'kitty':
             cp = cp.parent()
